@@ -66,14 +66,19 @@ def get_list_modal(modal, id, unit):
         return ["null"] * 2  # *2 for index errors
 
 
-def to_epoch(uptime):  # Convert the uptime to a unix style time for grafana graphs
+def to_epoch(uptime):
     try:
         re_uptime = \
-            re.findall(r"([0-9]+) days? ([0-9]{1,2}) hours? ([0-9]{1,2}) minutes? ([0-9]{1,2}) seconds?",
+            re.findall(r"(([0-9]+) days? )?(([0-9]{1,2}) hours? )?(([0-9]{1,2}) minutes? )?([0-9]{1,2}) seconds?",
                        uptime)[0]
-        return int(re_uptime[0]) * 86400 + int(re_uptime[1]) * 3600 + int(re_uptime[2]) * 60 + int(re_uptime[3])
+        length = re_uptime[1].isdigit() + re_uptime[3].isdigit() + re_uptime[5].isdigit() + re_uptime[6].isdigit()
+        if length == 4: return int(re_uptime[1]) * 86400 + int(re_uptime[3]) * 3600 + int(re_uptime[5]) * 60 + int(re_uptime[6])
+        elif length == 3: return int(re_uptime[3]) * 3600 + int(re_uptime[5]) * 60 + int(re_uptime[6])
+        elif length == 2: return int(re_uptime[5]) * 60 + int(re_uptime[6])
+        elif length == 1: return int(re_uptime[6])
+        else: return 0
     except IndexError:
-        return "null"
+        return 0
 
 
 while True:
