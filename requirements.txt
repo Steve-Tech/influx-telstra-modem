@@ -1,0 +1,4 @@
+telstra-smart-modem
+bs4
+influxdb-client[ciso]
+apscheduler
