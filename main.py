@@ -170,7 +170,9 @@ while True:
             (get_directional_modal, ("broadband-modal", "Noise Margin", "dB")),
         ]
 
-        data = []
+        data = [
+            Point(measurement).tag("modal", "gateway").field("status", status)
+        ]
 
         for func, args in modal_data:
             try:
