@@ -10,16 +10,16 @@ from datetime import datetime
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-IP = getenv("IP", "192.168.0.1")
-USERNAME = getenv("USERNAME", "admin")
-PASSWORD = getenv("PASSWORD", "Telstra")
+IP = getenv("MODEM_IP", "192.168.0.1")
+USERNAME = getenv("MODEM_USERNAME", "admin")
+PASSWORD = getenv("MODEM_PASSWORD", "Telstra")
 
 tsm = telstra_smart_modem.Modem(IP, USERNAME, PASSWORD)
 
-INFLUX = getenv("INFLUX", "http://172.18.0.2:8086")
-bucket = getenv("BUCKET", "default")
-org = getenv("ORG", "default")
-token = getenv("TOKEN")
+INFLUX = getenv("INFLUX_URL", "http://influx:8086")
+token = getenv("INFLUX_TOKEN")
+org = getenv("INFLUX_ORG", "default")
+bucket = getenv("INFLUX_BUCKET", "default")
 
 client = InfluxDBClient(url=INFLUX, token=token, org=org)
 write_api = client.write_api(write_options=SYNCHRONOUS)
